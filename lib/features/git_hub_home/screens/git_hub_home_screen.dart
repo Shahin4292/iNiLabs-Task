@@ -30,7 +30,7 @@ class GitHubHomeScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.filter_list),
             tooltip: 'Sort / Filter',
-            onPressed: () {},
+            onPressed: () => _showFilterOptions(context,),
           ),
 
           Obx(() => IconButton(
@@ -79,9 +79,9 @@ class GitHubHomeScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Repository: ${gitHubSearchController.userData!['public_repos'] ?? ''}"),
-                        Text(gitHubSearchController.userData!['login'] ?? ''),
-                        Text("View Type: ${gitHubSearchController.userData!['user_view_type'] ?? ''}"),
+                        Text("Repository: ${gitHubSearchController.userData!['public_repos']}"),
+                        Text(gitHubSearchController.userData!['login']),
+                        Text("View Type: ${gitHubSearchController.userData!['user_view_type']}"),
                       ],
                     ),
 
@@ -112,6 +112,41 @@ class GitHubHomeScreen extends StatelessWidget {
           ),
         );
       }),
+    );
+  }
+  void _showFilterOptions(BuildContext context) {
+    Get.bottomSheet(
+      Container(
+        color: Theme.of(context).colorScheme.surface,
+        child: Wrap(
+          children: [
+            ListTile(
+              leading: const Icon(Icons.sort_by_alpha),
+              title: const Text('Sort by Name'),
+              onTap: () {
+                gitHubHomeController.sortRepositories(SortOption.name);
+                Get.back();
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.star),
+              title: const Text('Sort by Stars'),
+              onTap: () {
+                gitHubHomeController.sortRepositories(SortOption.stars);
+                Get.back();
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.calendar_today),
+              title: const Text('Sort by Date'),
+              onTap: () {
+                gitHubHomeController.sortRepositories(SortOption.date);
+                Get.back();
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
