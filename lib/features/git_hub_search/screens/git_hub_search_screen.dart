@@ -3,11 +3,11 @@ import 'package:get/get.dart';
 import 'package:inilabs_assignment/controller/theme_controller.dart';
 import 'package:inilabs_assignment/utils/dimensions.dart';
 
-class LoginScreen extends StatelessWidget {
+class GitHubSearchScreen extends StatelessWidget {
   final TextEditingController usernameController = TextEditingController();
   final ThemeController themeController = Get.find();
 
-  LoginScreen({super.key});
+  GitHubSearchScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
