@@ -1,20 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:inilabs_assignment/features/login/screens/login_screen.dart';
+import 'package:inilabs_assignment/repo_details_page.dart';
+import 'package:inilabs_assignment/controller/theme_controller.dart';
+import 'home.dart';
+import 'login.dart';
+
 
 void main() {
-  runApp(const MyApp());
+  runApp(const GitHubApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class GitHubApp extends StatelessWidget {
+  const GitHubApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+    final ThemeController themeController = Get.put(ThemeController());
+    return Obx(() => GetMaterialApp(
+        title: 'GitHub Explorer',
+        theme: ThemeData.light(useMaterial3: true),
+        darkTheme: ThemeData.dark(useMaterial3: true),
+        themeMode: themeController.themeMode.value,
+        debugShowCheckedModeBanner: false,
+      home: LoginScreen(),
       ),
     );
   }
 }
-
