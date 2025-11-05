@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:inilabs_assignment/controller/theme_controller.dart';
+import 'package:inilabs_assignment/features/git_hub_home/screens/git_hub_home_screen.dart';
+import 'package:inilabs_assignment/features/git_hub_search/controller/git_hub_search_controller.dart';
 import 'package:inilabs_assignment/utils/dimensions.dart';
 
 class GitHubSearchScreen extends StatelessWidget {
   final TextEditingController usernameController = TextEditingController();
   final ThemeController themeController = Get.find();
+  final GitHubSearchController gitHubSearchController = Get.put(GitHubSearchController());
 
   GitHubSearchScreen({super.key});
 
@@ -29,7 +32,7 @@ class GitHubSearchScreen extends StatelessWidget {
 
               TextField(
                 controller: usernameController,
-                keyboardType: TextInputType.text,
+                // keyboardType: TextInputType.text,
                 style: TextStyle(fontSize: Dimensions.fontSizeLarge),
                 decoration: InputDecoration(
                   hintText: 'e.g. shahin4292',
@@ -47,9 +50,15 @@ class GitHubSearchScreen extends StatelessWidget {
                 ),
                 onPressed: () {
                   if (usernameController.text.isNotEmpty) {
+                    gitHubSearchController.fetchUserData(usernameController.text.trim());
                     // Get.put(GitHubController())
                     //     .fetchUserData(usernameController.text.trim());
-                    Get.toNamed('/home', arguments: usernameController.text.trim());
+                    Get.to(() => GitHubHomeScreen(username: usernameController.text.trim(),));
+                    // Get.toNamed('/GitHubHomeScreen', arguments: usernameController.text.trim());
+                  }else{
+                    Get.snackbar('Error', 'Please enter a username',
+                      snackPosition: SnackPosition.BOTTOM,
+                    );
                   }
                 },
                 child:  Text('Search',style: TextStyle(fontSize: Dimensions.fontSizeLarge, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.onPrimary)),

@@ -18,4 +18,5 @@ class Dimensions {
   static const double radiusDefault = 10.0;
   static const double radiusLarge = 15.0;
   static const double radiusExtraLarge = 20.0;
+  static const double radiusSizeExtraLarge = 25.0;
 }

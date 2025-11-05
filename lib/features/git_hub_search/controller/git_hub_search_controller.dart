@@ -1,13 +1,13 @@
 import 'package:get/get.dart';
-
-import '../repository/git_hub_search_repo.dart';
+import 'package:inilabs_assignment/features/git_hub_search/repository/git_hub_search_repo.dart';
 
 class GitHubSearchController extends GetxController {
 
   final GitHubSearchRepo _service = GitHubSearchRepo();
   var isLoading = false.obs;
   var hasError = false.obs;
-  var userData = {}.obs;
+  Map<String, dynamic>? userData;
+  // var userData = {}.obs;
 
 
   Future<void> fetchUserData(String username) async {
@@ -15,7 +15,8 @@ class GitHubSearchController extends GetxController {
       isLoading.value = true;
       hasError.value = false;
       final user = await _service.getUser(username);
-      userData.value = user;
+      userData = user;
+      // userData.value = user;
     } catch (e) {
       hasError.value = true;
     } finally {

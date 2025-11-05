@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:inilabs_assignment/features/git_hub_home/widget/repo_info_row.dart';
+import 'package:inilabs_assignment/features/git_hub_repo_details/screens/git_hub_repo_details_screen.dart';
 import 'package:inilabs_assignment/utils/dimensions.dart';
-import 'package:inilabs_assignment/widget_repo_card.dart';
 
 class RepoCard extends StatelessWidget {
   final dynamic repo;
@@ -25,89 +26,54 @@ class RepoCard extends StatelessWidget {
       onTap: () => Get.to(() => RepoDetailsScreen(repo: repo)),
       borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
       child: Card(
-        margin: const EdgeInsets.all(8),
+        margin: EdgeInsets.only(bottom: Dimensions.paddingSizeSmall),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
         ),
-        elevation: 2,
+        elevation: 0,
         child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: isGrid ?
-          Column(
+          padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+          child: isGrid ? Column(
+            spacing: Dimensions.paddingSizeExtraSmall,
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
 
               CircleAvatar(
-                radius: 28,
-                backgroundColor: Colors.blue.shade100,
+                radius: Dimensions.radiusSizeExtraLarge,
                 child: Text(
                     firstLetter,
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                    style: const TextStyle(fontWeight: FontWeight.bold)),
               ),
 
-              const SizedBox(width: 12),
+              Text(
+                name,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
 
-              Flexible(
-                fit: FlexFit.loose,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+              if (description.isNotEmpty)
+                Text(
+                  description,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  maxLines: 1, overflow: TextOverflow.ellipsis,),
+
+              RepoInfoRow(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  // crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-
-                    Text(
-                      name,
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-
-                    // const SizedBox(height: 6),
-                    if (description.isNotEmpty)
-                      Text(
-                        description,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                        maxLines: 2, overflow: TextOverflow.ellipsis,),
-
-                    // const SizedBox(height: 8),
-
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-
-                        const Icon(Icons.star, size: 16, color: Colors.amber),
-
-                        const SizedBox(width: 4),
-
-                        Text('$stars'),
-
-                        const SizedBox(width: 15),
-
-                        const Icon(Icons.code, size: 16),
-
-                        const SizedBox(width: 4),
-
-                        Text(language),
-                      ],
-                    ),
-                  ],
-                ),
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  text: "$stars", language: language,
               ),
             ],
           ) : Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
-            spacing: 10,
+            spacing: Dimensions.paddingSizeSmall,
             children: [
 
               CircleAvatar(
-                radius: 28,
-                backgroundColor: Colors.blue.shade100,
-                child: Text(
-                    firstLetter,
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                radius: Dimensions.radiusSizeExtraLarge,
+                child: Text(firstLetter, style: const TextStyle(fontWeight: FontWeight.bold)),
               ),
 
               Flexible(
@@ -128,26 +94,9 @@ class RepoCard extends StatelessWidget {
                       Text(
                         description,
                         style: Theme.of(context).textTheme.bodyMedium,
-                        maxLines: 1, overflow: TextOverflow.ellipsis,),
+                        maxLines: 1, overflow: TextOverflow.ellipsis),
 
-                    Row(
-                      children: [
-
-                        const Icon(Icons.star, size: 16, color: Colors.amber),
-
-                        const SizedBox(width: 4),
-
-                        Text('$stars'),
-
-                        const SizedBox(width: 15),
-
-                        const Icon(Icons.code, size: 16),
-
-                        const SizedBox(width: 4),
-
-                        Text(language),
-                      ],
-                    ),
+                    RepoInfoRow(text: "$stars", language: language),
                   ],
                 ),
               ),

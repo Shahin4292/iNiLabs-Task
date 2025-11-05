@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:inilabs_assignment/controller/theme_controller.dart';
 import 'package:inilabs_assignment/features/git_hub_home/controller/git_hub_home_controller.dart';
+import 'package:inilabs_assignment/features/git_hub_home/widget/repo_card.dart';
 import 'package:inilabs_assignment/features/git_hub_search/controller/git_hub_search_controller.dart';
+import 'package:inilabs_assignment/utils/dimensions.dart';
 
 class GitHubHomeScreen extends StatelessWidget {
   final GitHubHomeController gitHubHomeController = Get.put(GitHubHomeController());
@@ -24,11 +26,7 @@ class GitHubHomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Repositories'),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            tooltip: 'Search repos',
-            onPressed: () {},
-          ),
+
           IconButton(
             icon: const Icon(Icons.filter_list),
             tooltip: 'Sort / Filter',
@@ -50,6 +48,7 @@ class GitHubHomeScreen extends StatelessWidget {
           ),
         ],
       ),
+
       body: Obx(() {
         if (gitHubHomeController.isLoading.value) {
           return const Center(child: CircularProgressIndicator());
@@ -62,10 +61,56 @@ class GitHubHomeScreen extends StatelessWidget {
           return const Center(child: Text('No repositories found.'));
         }
 
-        return Center(
-          child: Text('Found ${repos.length}'),
-        );
+        return SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Column(
+            children: [
+              CircleAvatar( radius: 50, backgroundImage: NetworkImage(gitHubSearchController.userData!['avatar_url'] ?? ''), ),
+              Text(
+                gitHubSearchController.userData!['name'] ?? '',
+                style: const TextStyle(
+                    fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+          
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Repository: ${gitHubSearchController.userData!['public_repos'] ?? ''}"),
+                        Text(gitHubSearchController.userData!['login'] ?? ''),
+                        Text("View Type: ${gitHubSearchController.userData!['user_view_type'] ?? ''}"),
+                      ],
+                    ),
 
+                    const SizedBox(height: 12),
+          
+                    Text(
+                      gitHubSearchController.userData!['bio'] ?? 'No bio available',
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
+          
+              gitHubHomeController.viewMode.value == ViewMode.list ? ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: repos.length,
+                padding: EdgeInsets.all(Dimensions.paddingSizeSmall),
+                itemBuilder: (context, index) => RepoCard(repo: repos[index], isGrid: false),
+              ) : GridView.builder(itemCount: repos.length,
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                padding: EdgeInsets.all(Dimensions.paddingSizeSmall),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 2/2.1, crossAxisSpacing: Dimensions.paddingSizeSmall),
+                itemBuilder: (context, index) => RepoCard(repo: repos[index], isGrid: true),
+              ),
+            ],
+          ),
+        );
       }),
     );
   }
