@@ -121,7 +121,13 @@ class GitHubHomeScreen extends StatelessWidget {
   void _showFilterOptions(BuildContext context) {
     Get.bottomSheet(
       Container(
-        color: Theme.of(context).colorScheme.surface,
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surface,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(Dimensions.radiusLarge),
+            topRight: Radius.circular(Dimensions.radiusLarge),
+          ),
+        ),
         child: Wrap(
           children: [
 
