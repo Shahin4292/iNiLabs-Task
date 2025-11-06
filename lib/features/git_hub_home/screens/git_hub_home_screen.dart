@@ -10,21 +10,27 @@ class GitHubHomeScreen extends StatelessWidget {
   final GitHubHomeController gitHubHomeController = Get.put(GitHubHomeController());
   GitHubSearchController gitHubSearchController = Get.put(GitHubSearchController());
   final ThemeController themeController = Get.find();
-  final String username;
-  GitHubHomeScreen({super.key, required this.username});
+  GitHubHomeScreen({super.key, });
 
   @override
   Widget build(BuildContext context) {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (username.isNotEmpty) {
-        gitHubHomeController.fetchReposData(username);
+      if (gitHubSearchController.usernameController.text.isNotEmpty) {
+        gitHubHomeController.fetchReposData(gitHubSearchController.usernameController.text);
       }
     });
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Repositories'),
+        forceMaterialTransparency: true,
+        leading: IconButton(icon: const Icon(Icons.arrow_back),
+          onPressed: (){
+          gitHubSearchController.usernameController.clear();
+          Get.back();
+          },
+        ),
+        title: Text('Repositories', style: TextStyle(fontSize: Dimensions.fontSizeExtraLarge)),
         actions: [
 
           IconButton(
@@ -34,9 +40,7 @@ class GitHubHomeScreen extends StatelessWidget {
           ),
 
           Obx(() => IconButton(
-            icon: Icon(gitHubHomeController.viewMode.value == ViewMode.list
-                ? Icons.grid_view
-                : Icons.list),
+            icon: Icon(gitHubHomeController.viewMode.value == ViewMode.list ? Icons.grid_view : Icons.list),
             tooltip: 'Toggle view',
             onPressed: gitHubHomeController.toggleViewMode,
           )),
@@ -66,16 +70,17 @@ class GitHubHomeScreen extends StatelessWidget {
           child: Column(
             children: [
               CircleAvatar( radius: 50, backgroundImage: NetworkImage(gitHubSearchController.userData!['avatar_url'] ?? ''), ),
+
               Text(
                 gitHubSearchController.userData!['name'] ?? '',
-                style: const TextStyle(
-                    fontSize: 24, fontWeight: FontWeight.bold),
-              ),
+                style: TextStyle(fontSize: Dimensions.fontSizeOverLarge, fontWeight: FontWeight.bold)),
           
               Padding(
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
                 child: Column(
+                  spacing: Dimensions.paddingSizeSmall,
                   children: [
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -85,8 +90,6 @@ class GitHubHomeScreen extends StatelessWidget {
                       ],
                     ),
 
-                    const SizedBox(height: 12),
-          
                     Text(
                       gitHubSearchController.userData!['bio'] ?? 'No bio available',
                       textAlign: TextAlign.center,
@@ -114,12 +117,14 @@ class GitHubHomeScreen extends StatelessWidget {
       }),
     );
   }
+
   void _showFilterOptions(BuildContext context) {
     Get.bottomSheet(
       Container(
         color: Theme.of(context).colorScheme.surface,
         child: Wrap(
           children: [
+
             ListTile(
               leading: const Icon(Icons.sort_by_alpha),
               title: const Text('Sort by Name'),
@@ -128,6 +133,7 @@ class GitHubHomeScreen extends StatelessWidget {
                 Get.back();
               },
             ),
+
             ListTile(
               leading: const Icon(Icons.star),
               title: const Text('Sort by Stars'),
@@ -136,6 +142,7 @@ class GitHubHomeScreen extends StatelessWidget {
                 Get.back();
               },
             ),
+
             ListTile(
               leading: const Icon(Icons.calendar_today),
               title: const Text('Sort by Date'),

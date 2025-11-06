@@ -26,7 +26,7 @@ class RepoInfoRow extends StatelessWidget {
 
          SizedBox(width: Dimensions.paddingSizeExtraSmall),
 
-        Text(text, style: Theme.of(context).textTheme.bodyMedium),
+        Text(text, style: TextStyle(fontSize: Dimensions.fontSizeDefault)),
 
         SizedBox(width: Dimensions.paddingSizeDefault),
 
@@ -34,7 +34,7 @@ class RepoInfoRow extends StatelessWidget {
 
         SizedBox(width: Dimensions.paddingSizeExtraSmall),
 
-        Flexible(child: Text(language, maxLines: 1, overflow: TextOverflow.ellipsis, style: Theme.of(context).textTheme.bodyMedium)),
+        Flexible(child: Text(language, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: Dimensions.fontSizeDefault))),
       ],
     );
   }

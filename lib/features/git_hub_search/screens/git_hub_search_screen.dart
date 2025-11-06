@@ -6,7 +6,6 @@ import 'package:inilabs_assignment/features/git_hub_search/controller/git_hub_se
 import 'package:inilabs_assignment/utils/dimensions.dart';
 
 class GitHubSearchScreen extends StatelessWidget {
-  final TextEditingController usernameController = TextEditingController();
   final ThemeController themeController = Get.find();
   final GitHubSearchController gitHubSearchController = Get.put(GitHubSearchController());
 
@@ -16,7 +15,7 @@ class GitHubSearchScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('GitHub Explorer', style: TextStyle(fontSize: Dimensions.fontSizeOverLarge)),
+        title: Text('GitHub Explorer', style: TextStyle(fontSize: Dimensions.fontSizeExtraLarge)),
         actions: [IconButton(onPressed: themeController.toggleTheme, icon: Icon(Icons.brightness_6))],
       ),
 
@@ -31,11 +30,10 @@ class GitHubSearchScreen extends StatelessWidget {
               Text('Enter GitHub Username', style: TextStyle(fontSize: Dimensions.fontSizeExtraLarge)),
 
               TextField(
-                controller: usernameController,
-                // keyboardType: TextInputType.text,
+                controller: gitHubSearchController.usernameController,
                 style: TextStyle(fontSize: Dimensions.fontSizeLarge),
                 decoration: InputDecoration(
-                  hintText: 'e.g. shahin4292',
+                  hintText: 'Search by username',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                   ),
@@ -49,17 +47,10 @@ class GitHubSearchScreen extends StatelessWidget {
                   fixedSize: Size(MediaQuery.sizeOf(context).width, MediaQuery.sizeOf(context).height * 0.07)
                 ),
                 onPressed: () {
-                  if (usernameController.text.isNotEmpty) {
-                    gitHubSearchController.fetchUserData(usernameController.text.trim());
-                    // Get.put(GitHubController())
-                    //     .fetchUserData(usernameController.text.trim());
-                    Get.to(() => GitHubHomeScreen(username: usernameController.text.trim(),));
-                    // Get.toNamed('/GitHubHomeScreen', arguments: usernameController.text.trim());
-                  }else{
-                    Get.snackbar('Error', 'Please enter a username',
-                      snackPosition: SnackPosition.BOTTOM,
-                    );
-                  }
+                  if (gitHubSearchController.usernameController.text.isNotEmpty) {
+                    gitHubSearchController.fetchUserData(gitHubSearchController.usernameController.text.trim());
+                    Get.to(() => GitHubHomeScreen());
+                  }else{Get.snackbar('Error', 'Please enter a username', snackPosition: SnackPosition.BOTTOM);}
                 },
                 child:  Text('Search',style: TextStyle(fontSize: Dimensions.fontSizeLarge, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.onPrimary)),
               ),

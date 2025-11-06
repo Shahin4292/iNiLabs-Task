@@ -3,8 +3,6 @@ import 'package:get/get.dart';
 import 'package:inilabs_assignment/controller/theme_controller.dart';
 import 'features/git_hub_search/screens/git_hub_search_screen.dart';
 
-
-
 void main() {
   runApp(const GitHubApp());
 }

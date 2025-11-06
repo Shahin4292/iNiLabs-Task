@@ -6,8 +6,6 @@ class GitHubHomeRepo{
   final Dio _dio = Dio(BaseOptions(baseUrl: AppConstants.apiBaseUrl));
 
   Future<List<dynamic>> getUserRepos(String username) async {
-    debugPrint("---------------------------------------------");
-    debugPrint('Fetching repos for user: $username');
     final response = await _dio.get('${AppConstants.userUrl}$username${AppConstants.reposUrl}');
     debugPrint("---------------------------------------------");
     debugPrint("Response Data: ${response.data}");

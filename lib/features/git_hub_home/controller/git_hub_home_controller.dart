@@ -24,16 +24,13 @@ class GitHubHomeController extends GetxController {
     sortOption.value = option;
     switch (option) {
       case SortOption.name:
-        filteredRepos.sort((a, b) =>
-            a['name'].toLowerCase().compareTo(b['name'].toLowerCase()));
+        filteredRepos.sort((a, b) => a['name'].toLowerCase().compareTo(b['name'].toLowerCase()));
         break;
       case SortOption.stars:
-        filteredRepos.sort((b, a) =>
-            (a['stargazers_count'] as int).compareTo(b['stargazers_count']));
+        filteredRepos.sort((b, a) => (a['stargazers_count'] as int).compareTo(b['stargazers_count']));
         break;
       case SortOption.date:
-        filteredRepos.sort((b, a) => DateTime.parse(a['created_at'])
-            .compareTo(DateTime.parse(b['created_at'])));
+        filteredRepos.sort((b, a) => DateTime.parse(a['created_at']).compareTo(DateTime.parse(b['created_at'])));
         break;
     }
   }

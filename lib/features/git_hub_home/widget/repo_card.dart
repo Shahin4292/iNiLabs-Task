@@ -41,22 +41,19 @@ class RepoCard extends StatelessWidget {
 
               CircleAvatar(
                 radius: Dimensions.radiusSizeExtraLarge,
-                child: Text(
-                    firstLetter,
-                    style: const TextStyle(fontWeight: FontWeight.bold)),
+                child: Text(firstLetter, style: const TextStyle(fontWeight: FontWeight.bold)),
               ),
 
               Text(
                 name,
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+                style:  TextStyle(fontWeight: FontWeight.bold,fontSize: Dimensions.fontSizeLarge),
+                maxLines: 1, overflow: TextOverflow.ellipsis,
               ),
 
               if (description.isNotEmpty)
                 Text(
                   description,
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  style: TextStyle(fontSize: Dimensions.fontSizeDefault),
                   maxLines: 1, overflow: TextOverflow.ellipsis,),
 
               RepoInfoRow(
@@ -85,7 +82,7 @@ class RepoCard extends StatelessWidget {
 
                     Text(
                       name,
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                      style:  TextStyle(fontWeight: FontWeight.bold,fontSize: Dimensions.fontSizeLarge),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -93,7 +90,7 @@ class RepoCard extends StatelessWidget {
                     if (description.isNotEmpty)
                       Text(
                         description,
-                        style: Theme.of(context).textTheme.bodyMedium,
+                        style: TextStyle(fontSize: Dimensions.fontSizeDefault),
                         maxLines: 1, overflow: TextOverflow.ellipsis),
 
                     RepoInfoRow(text: "$stars", language: language),
