@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class GitHubRepoDetailsController extends GetxController {
@@ -13,5 +14,11 @@ class GitHubRepoDetailsController extends GetxController {
       throw 'Could not open $url';
     }
   }
+
+  String formatDateTime(DateTime date) {
+    final dhakaTime = date.toUtc().add(const Duration(hours: 6));
+    return DateFormat('yyyy-MM-dd hh:mm a').format(dhakaTime);
+  }
+
 
 }

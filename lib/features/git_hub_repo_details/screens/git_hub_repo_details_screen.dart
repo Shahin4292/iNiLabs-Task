@@ -90,7 +90,7 @@ class RepoDetailsScreen extends StatelessWidget {
 
                   SizedBox(width: Dimensions.paddingSizeExtraSmall),
 
-                  Text('Updated at: $updatedAt'),
+                  Text('Updated at: ${gitHubRepoDetailsController.formatDateTime(updatedAt)}'),
                 ],
               ),
 
