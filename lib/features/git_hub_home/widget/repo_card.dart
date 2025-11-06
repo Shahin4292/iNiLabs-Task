@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:inilabs_assignment/features/git_hub_home/model/git_hub_home_model.dart';
 import 'package:inilabs_assignment/features/git_hub_home/widget/repo_info_row.dart';
 import 'package:inilabs_assignment/features/git_hub_repo_details/screens/git_hub_repo_details_screen.dart';
 import 'package:inilabs_assignment/utils/dimensions.dart';
 
 class RepoCard extends StatelessWidget {
-  final dynamic repo;
+  final GitHubHomeModel repo;
   final bool isGrid;
 
   const RepoCard({
@@ -16,14 +17,14 @@ class RepoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final name = repo?['name'] ?? 'Unknown';
-    final description = repo?['description'] ?? '';
-    final stars = repo?['stargazers_count'] ?? 0;
-    final language = repo?['language'] ?? '';
+    final name = repo.name ?? 'Unknown';
+    final description = repo.description ?? '';
+    final stars = repo.stargazersCount ?? 0;
+    final language = repo.language ?? '';
     final firstLetter = name.isNotEmpty ? name[0].toUpperCase() : '?';
 
     return InkWell(
-      onTap: () => Get.to(() => RepoDetailsScreen(repo: repo)),
+      onTap: () => Get.to(() => RepoDetailsScreen(detailsRepo: repo)),
       borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
       child: Card(
         margin: EdgeInsets.only(bottom: Dimensions.paddingSizeSmall),

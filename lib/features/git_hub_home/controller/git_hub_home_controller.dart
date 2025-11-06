@@ -7,12 +7,10 @@ enum SortOption { name, stars, date }
 class GitHubHomeController extends GetxController {
 
   final GitHubHomeRepo _service = GitHubHomeRepo();
-
   final viewMode = ViewMode.list.obs;
   var isLoading = false.obs;
   var hasError = false.obs;
   var userData = {}.obs;
-  var repos = [].obs;
   var filteredRepos = [].obs;
   var sortOption = SortOption.name.obs;
 
@@ -22,17 +20,21 @@ class GitHubHomeController extends GetxController {
 
   void sortRepositories(SortOption option) {
     sortOption.value = option;
+
     switch (option) {
       case SortOption.name:
-        filteredRepos.sort((a, b) => a['name'].toLowerCase().compareTo(b['name'].toLowerCase()));
+        filteredRepos.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
         break;
+
       case SortOption.stars:
-        filteredRepos.sort((b, a) => (a['stargazers_count'] as int).compareTo(b['stargazers_count']));
+        filteredRepos.sort((a, b) => b.stargazersCount.compareTo(a.stargazersCount));
         break;
+
       case SortOption.date:
-        filteredRepos.sort((b, a) => DateTime.parse(a['created_at']).compareTo(DateTime.parse(b['created_at'])));
+        filteredRepos.sort((a, b) => b.createdAt.compareTo(a.createdAt));
         break;
     }
+    filteredRepos.refresh();
   }
 
   Future<void> fetchReposData(String username) async {
@@ -41,7 +43,6 @@ class GitHubHomeController extends GetxController {
       hasError.value = false;
 
       final repoList = await _service.getUserRepos(username);
-      repos.assignAll(repoList);
       filteredRepos.assignAll(repoList);
     } catch (e) {
       hasError.value = true;

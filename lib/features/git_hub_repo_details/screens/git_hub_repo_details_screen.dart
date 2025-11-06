@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:inilabs_assignment/controller/theme_controller.dart';
+import 'package:inilabs_assignment/features/git_hub_home/model/git_hub_home_model.dart';
 import 'package:inilabs_assignment/features/git_hub_repo_details/controller/git_hub_repo_details_controller.dart';
 import 'package:inilabs_assignment/utils/dimensions.dart';
 
 class RepoDetailsScreen extends StatelessWidget {
-  final dynamic repo;
+  final GitHubHomeModel detailsRepo;
   final ThemeController themeController = Get.find();
-  RepoDetailsScreen({super.key, required this.repo});
+  RepoDetailsScreen({super.key, required this.detailsRepo});
 
   @override
   Widget build(BuildContext context) {
 
-    final GitHubRepoDetailsController gitHubRepoDetailsController = Get.put(GitHubRepoDetailsController(repo));
-    final name = repo['name'] ?? 'Unknown';
-    final description = repo['description'] ?? 'No description available';
-    final stars = repo['stargazers_count'] ?? 0;
-    final language = repo['language'] ?? 'Unknown';
-    final updatedAt = repo['updated_at'] ?? '';
+    final GitHubRepoDetailsController gitHubRepoDetailsController = Get.put(GitHubRepoDetailsController(detailsRepo));
+    final name = detailsRepo.name ?? 'Unknown';
+    final description = detailsRepo.description ?? 'No description available';
+    final stars = detailsRepo.stargazersCount ?? 0;
+    final language = detailsRepo.language ?? 'Unknown';
 
     return Scaffold(
       appBar: AppBar(
@@ -83,7 +83,7 @@ class RepoDetailsScreen extends StatelessWidget {
 
             SizedBox(height: Dimensions.paddingSizeSmall),
 
-            if (updatedAt.isNotEmpty)
+            if (detailsRepo.updatedAt != null)
               Row(
                 children: [
                   Icon(Icons.update, size: Dimensions.fontSizeExtraLarge),
@@ -91,7 +91,7 @@ class RepoDetailsScreen extends StatelessWidget {
                   SizedBox(width: Dimensions.paddingSizeExtraSmall),
 
                   Text(
-                    'Updated at: ${gitHubRepoDetailsController.formatDateTime(DateTime.parse(updatedAt))}',
+                    'Updated at: ${gitHubRepoDetailsController.formatDateTime(detailsRepo.updatedAt ?? DateTime.now())}',
                   ),
                 ],
               ),

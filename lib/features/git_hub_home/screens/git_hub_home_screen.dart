@@ -65,14 +65,15 @@ class GitHubHomeScreen extends StatelessWidget {
           return const Center(child: Text('No repositories found.'));
         }
 
+        final users = gitHubSearchController.userData.value!;
         return SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           child: Column(
             children: [
-              CircleAvatar( radius: 50, backgroundImage: NetworkImage(gitHubSearchController.userData!['avatar_url'] ?? ''), ),
+              CircleAvatar( radius: 50, backgroundImage: NetworkImage(users.avatarUrl), ),
 
               Text(
-                gitHubSearchController.userData!['name'] ?? '',
+                users.name,
                 style: TextStyle(fontSize: Dimensions.fontSizeOverLarge, fontWeight: FontWeight.bold)),
           
               Padding(
@@ -84,14 +85,14 @@ class GitHubHomeScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Repository: ${gitHubSearchController.userData!['public_repos']}"),
-                        Text(gitHubSearchController.userData!['login']),
-                        Text("View Type: ${gitHubSearchController.userData!['user_view_type']}"),
+                        Text("Repository: ${users.publicRepos}"),
+                        Text(users.login),
+                        Text("View Type: ${users.userViewType}"),
                       ],
                     ),
 
                     Text(
-                      gitHubSearchController.userData!['bio'] ?? 'No bio available',
+                      users.bio,
                       textAlign: TextAlign.center,
                     ),
                   ],
